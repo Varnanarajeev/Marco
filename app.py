@@ -84,6 +84,10 @@ def classify_query(user_input):
         return "details"
     else:
         return "general"
+# Button to trigger vector embedding
+if st.button("Click me first👾"):
+    vector_embedding()
+
 
 # Input for user question
 if "conversation_history" not in st.session_state:
@@ -91,9 +95,7 @@ if "conversation_history" not in st.session_state:
 
 prompt1 = st.text_input("Ask me your questions!")
 
-# Button to trigger vector embedding
-if st.button("Click me first👾"):
-    vector_embedding()
+
 
 if prompt1:
     # Check if vectors are initialized before accessing
