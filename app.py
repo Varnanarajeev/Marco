@@ -1,7 +1,7 @@
-import streamlit as st
 import os
 import time
 import pandas as pd
+import streamlit as st
 from langchain_groq import ChatGroq
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -11,6 +11,8 @@ from langchain.chains import create_retrieval_chain
 from langchain_community.vectorstores import FAISS
 from langchain.schema import Document
 
+
+
 # API keys
 groq_api_key = "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"
 google_api_key = "AIzaSyAOWJGZ7YsJxefdaNzQK8RSfGxExBBa4g0"
@@ -19,7 +21,7 @@ google_api_key = "AIzaSyAOWJGZ7YsJxefdaNzQK8RSfGxExBBa4g0"
 os.environ["GOOGLE_API_KEY"] = google_api_key
 
 # Streamlit title
-st.title("Chatbot: Shopkeeper Assistant")
+st.title("Marco : Shopkeeper Assistant")
 
 # Initialize the language model
 llm = ChatGroq(groq_api_key=groq_api_key, model_name="Llama3-8b-8192")
@@ -84,23 +86,36 @@ def classify_query(user_input):
         return "details"
     else:
         return "general"
+
 # Button to trigger vector embedding
-if st.button("Click me first👾"):
-    vector_embedding()
 
+if st.button("Initialize AI for Assistance"):
+    vector_embedding()  # Initialize the embeddings
+    
+    # Typing effect for the welcome message
+    message = "Hey!! I'm Marco, your Shopkeeper Assistant bot. Ask me your queries about product details, stock information, and much more!"
+    typing_placeholder = st.empty()  # Create a placeholder for the typing animation
+    
+    typing_message = ""
+    for char in message:
+        typing_message += char
+        # Use HTML to change the font size
+        typing_placeholder.markdown(f"<h5>{typing_message}</h6>", unsafe_allow_html=True)  # Adjust the header size (h5 for smaller text)
+        time.sleep(0.02)  # Adjust the delay for typing speed
 
+    
 # Input for user question
 if "conversation_history" not in st.session_state:
     st.session_state.conversation_history = []
 
-prompt1 = st.text_input("Ask me your questions!")
+prompt1 = st.text_input("Ask me your queries!")
 
 
 
 if prompt1:
     # Check if vectors are initialized before accessing
     if "vectors" not in st.session_state:
-        st.error("Vector store not initialized. Please click 'Documents Embedding' first.")
+        st.error("Vector store not initialized. Please click 'Initialize  AI for Assistance' first.")
     else:
         # Classify the user query
         query_type = classify_query(prompt1)
