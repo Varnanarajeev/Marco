@@ -43,7 +43,7 @@ def vector_embedding():
         model_name = "models/embedding-001"
         st.session_state.embeddings = GoogleGenerativeAIEmbeddings(model=model_name)
         
-        csv_directory = r"C:\talrop_shopify_\data"  # Change this to your CSV directory
+        csv_directory = r"C:\talrop_marco\data"  # Change this to your CSV directory
         if not os.path.exists(csv_directory):
             st.error("The specified directory does not exist.")
             return
